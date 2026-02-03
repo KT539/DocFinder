@@ -28,7 +28,7 @@ function createWindow() {
     }
   });
 
-  win.loadFile('index.html');
+  win.loadURL('http://localhost:5173');
 }
 
 // event triggering once electron is ready to create a window

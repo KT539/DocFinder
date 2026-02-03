@@ -9,3 +9,5 @@ echo json_encode([
     "message" => "Backend PHP opérationnel pour DocFlow",
     "php_version" => phpversion()
 ]);
+
+// fetch('http://localhost:8000/test.php').then(r => r.json()).then(data => console.log(data))
