@@ -1,8 +1,8 @@
-const { app, BrowserWindow } = require('electron');
-const path = require('path'); // Doit être AVANT electron-reload
-const { spawn } = require('child_process');
+const { app, BrowserWindow } = require('electron'); // import the electron app itself (BrowserWindow = the class representing a window in the app)
+const path = require('path'); // native Node module to handle file paths cross-platform
+const { spawn } = require('child_process'); // native Node module to launch external processes from the app, like my PHP server
 
-// Initialisation de electron-reload
+// electron-reload initialization
 require('electron-reload')(__dirname, {
   electron: path.join(__dirname, '../node_modules/.bin/electron')
 });
@@ -10,19 +10,20 @@ require('electron-reload')(__dirname, {
 let phpServer;
 
 function startPhpServer() {
-  // Lance le serveur PHP 8 local pour la logique métier [cite: 29]
+  // launch PHP's integrated dev server on port 8000, directed to the backend/ files
   phpServer = spawn('php', ['-S', 'localhost:8000', '-t', path.join(__dirname, '../backend')]);
-
+  // event listeners on PHP server data and errors
   phpServer.stdout.on('data', (data) => console.log(`PHP: ${data}`));
   phpServer.stderr.on('data', (data) => console.error(`PHP Error: ${data}`));
 }
 
+// create a new window and load index.html into it
 function createWindow() {
   const win = new BrowserWindow({
     width: 1100,
     height: 750,
     webPreferences: {
-      nodeIntegration: true,
+      nodeIntegration: true, // so the web page can directly access Node.js's APIs
       contextIsolation: false
     }
   });
@@ -30,13 +31,14 @@ function createWindow() {
   win.loadFile('index.html');
 }
 
+// event triggering once electron is ready to create a window
 app.whenReady().then(() => {
-  startPhpServer(); // Lance PHP avant de créer la fenêtre
+  startPhpServer(); // start PHP first, so that the backend is already set up when the window loads
   createWindow();
 });
 
-// Très important : couper PHP quand on ferme l'app
+// listener triggering when all windows are closed
 app.on('window-all-closed', () => {
-  if (phpServer) phpServer.kill();
-  if (process.platform !== 'darwin') app.quit();
+  if (phpServer) phpServer.kill(); // so that the PHP doesn't continue in the background while the app is closed
+  if (process.platform !== 'darwin') app.quit(); // electron convention for macOS
 });
