@@ -1,0 +1,34 @@
+{
+  "name": "docflow",
+  "version": "1.0.0",
+  "description": "PreTPI project",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "init-tailwind": "tailwindcss init -p",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KT539/DocFlow.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/KT539/DocFlow/issues"
+  },
+  "homepage": "https://github.com/KT539/DocFlow#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.4.24",
+    "electron": "^40.1.0",
+    "electron-reload": "^2.0.0-alpha.1",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.18"
+  },
+  "dependencies": {
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  }
+}
