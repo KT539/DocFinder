@@ -1,6 +1,7 @@
 const { app, BrowserWindow } = require('electron'); // import the electron app itself (BrowserWindow = the class representing a window in the app)
 const path = require('path'); // native Node module to handle file paths cross-platform
 const { spawn } = require('child_process'); // native Node module to launch external processes from the app, like my PHP server
+const { ipcMain } = require('electron')
 
 // electron-reload initialization
 require('electron-reload')(__dirname, {
@@ -23,8 +24,9 @@ function createWindow() {
     width: 1100,
     height: 750,
     webPreferences: {
-      nodeIntegration: true, // so the web page can directly access Node.js's APIs
-      contextIsolation: false
+      nodeIntegration: false,
+      contextIsolation: true,
+      preload: path.join(__dirname, 'preload.js')
     }
   });
 
