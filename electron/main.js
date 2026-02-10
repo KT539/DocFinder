@@ -18,20 +18,34 @@ function startPhpServer() {
   phpServer.stderr.on('data', (data) => console.error(`PHP Error: ${data}`));
 }
 
-// create a new window and load index.html into it
+// create a new window with IPC security enabled and load the React app from Vite's dev server
 function createWindow() {
   const win = new BrowserWindow({
     width: 1100,
     height: 750,
     webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js')
+      nodeIntegration: false, // disable the renderer's direct access to Node.js
+      contextIsolation: true, // isolate the renderer for better security
+      preload: path.join(__dirname, 'preload.js') // bridge for IPC communication between main and renderer processes
     }
   });
 
-  win.loadURL('http://localhost:5173');
+  win.loadURL('http://localhost:5173'); // load React app served by Vite
 }
+
+// listens to ipcRenderer messages on the "IPC canal" scan-pdfs, and executes the async callback in response
+ipcMain.handle('scan-pdfs', async (event, folderPath) => {
+  try {
+    // encoreURIComponent ensures special characters don't break the URL
+    const response = await fetch(`http://localhost:8000/scan.php?path=${encodeURIComponent(folderPath)}`);
+    // after the fetch, parse the response in JSON
+    const data = await response.json();
+    // return the data not just locally, but to the renderer through the IPC
+    return data;
+  } catch (error) {
+    return { error: error.message };
+  }
+});
 
 // event triggering once electron is ready to create a window
 app.whenReady().then(() => {
