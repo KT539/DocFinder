@@ -37,7 +37,7 @@ export default function App() {
         <div className="min-h-screen bg-gray-900 text-white p-8">
             <h1 className="text-2xl font-bold">DocFlow</h1>
 
-            <h3 className="mt-6">PDFs scanner</h3>
+            <h2 className="text-xl font-semibold mt-6">PDFs scanner</h2>
             <div className="flex gap-2">
                 <input
                     type="text"
@@ -53,7 +53,7 @@ export default function App() {
                 </button>
             </div>
 
-            <h3 className="mt-6">DOCXs scanner</h3>
+            <h2 className="text-xl font-semibold mt-6">DOCXs scanner</h2>
             <div className="flex gap-2">
                 <input
                     type="text"
