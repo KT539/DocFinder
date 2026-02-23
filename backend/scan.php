@@ -17,6 +17,7 @@ if (!is_dir($path)) { // checks in the file system if the folder provided exists
 
 $files = scandir($path); // use scandir function to return the content of the folder as a table
 $pdfs = [];
+$docxs = [];
 
 foreach ($files as $file) {
     $fullPath = $path . DIRECTORY_SEPARATOR . $file; // DIRECTORY_SEPARATOR = a PHP const that equals \ on Windows and / on Linux/macOS
@@ -26,12 +27,21 @@ foreach ($files as $file) {
             'path' => $fullPath
         ];
     }
+    elseif (is_file($fullPath) && pathinfo($file, PATHINFO_EXTENSION) == 'docx') {
+        $docxs[] = [
+            'name' => $file,
+            'path' => $fullPath
+        ];
+    }
 }
 
-// returns a JSON object as a response to the ipcRenderer, with operation status and PDFs list
+$type = $_GET['type'] ?? 'pdf'; // get de type value in the URL, with pdf as default value
+
+
 echo json_encode([
     'success' => true,
-    'pdfs' => $pdfs
+    'pdfs' => $type === 'pdf' ? $pdfs : [], // if type = pdf return the pdfs table, else an empty table
+    'docxs' => $type === 'docx' ? $docxs : [] // if type = docx return the docxs table, else an empty table
 ]);
 
 /* full app data flow for reference :

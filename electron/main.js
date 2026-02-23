@@ -37,10 +37,20 @@ function createWindow() {
 ipcMain.handle('scan-pdfs', async (event, folderPath) => {
   try {
     // encoreURIComponent ensures special characters don't break the URL
-    const response = await fetch(`http://localhost:8000/scan.php?path=${encodeURIComponent(folderPath)}`);
+    const response = await fetch(`http://localhost:8000/scan.php?path=${encodeURIComponent(folderPath)}&type=pdf`);
     // after the fetch, parse the response in JSON
     const data = await response.json();
     // return the data not just locally, but to the renderer through the IPC
+    return data;
+  } catch (error) {
+    return { error: error.message };
+  }
+});
+
+ipcMain.handle('scan-docxs', async (event, folderPath) => {
+  try {
+    const response = await fetch(`http://localhost:8000/scan.php?path=${encodeURIComponent(folderPath)}&type=docx`);
+    const data = await response.json();
     return data;
   } catch (error) {
     return { error: error.message };
