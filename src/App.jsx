@@ -35,7 +35,7 @@ export default function App() {
 
     return (
         <div className="min-h-screen bg-gray-900 text-white p-8">
-            <h1 className="text-2xl font-bold">DocFlow</h1>
+            <h1 className="text-2xl font-bold">DocFinder</h1>
 
             <h2 className="text-xl font-semibold mt-6">PDFs scanner</h2>
             <div className="flex gap-2">

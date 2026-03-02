@@ -21,7 +21,7 @@ $docxs = [];
 
 foreach ($files as $file) {
     $fullPath = $path . DIRECTORY_SEPARATOR . $file; // DIRECTORY_SEPARATOR = a PHP const that equals \ on Windows and / on Linux/macOS
-    if (is_file($fullPath) && pathinfo($file, PATHINFO_EXTENSION) === 'pdf') { // checks that the file is a file and not a folder, and that the extension is .pdf
+    if (is_file($fullPath) && strtoLower(pathinfo($file, PATHINFO_EXTENSION)) === 'pdf') { // checks that the file is a file and not a folder, and that the extension is .pdf
         $pdfs[] = [
             'name' => $file,
             'path' => $fullPath
