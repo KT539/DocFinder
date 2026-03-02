@@ -7,7 +7,7 @@ const { contextBridge, ipcRenderer } = require('electron');
 // exposeInMainWorld creates an object in window
 contextBridge.exposeInMainWorld('electronAPI', {
     // list of functions in electronAPI object
-    // send the scan-pdfs function with a path as parameter, and wait for ipcMain's response
+    // send the scan functions with a path as parameter, and wait for ipcMain's response
     scanPdfs: (folderPath) => ipcRenderer.invoke('scan-pdfs', folderPath),
     scanDocxs: (folderPath) => ipcRenderer.invoke('scan-docxs', folderPath)
 });
