@@ -1,7 +1,6 @@
-const { app, BrowserWindow } = require('electron'); // import the electron app itself (BrowserWindow = the class representing a window in the app)
+const { app, BrowserWindow, dialog, ipcMain } = require('electron'); // import the electron app itself (BrowserWindow = the class representing a window in the app)
 const path = require('path'); // native Node module to handle file paths cross-platform
 const { spawn } = require('child_process'); // native Node module to launch external processes from the app, like my PHP server
-const { ipcMain } = require('electron')
 
 // electron-reload initialization
 require('electron-reload')(__dirname, {
@@ -56,6 +55,17 @@ ipcMain.handle('scan-docxs', async (event, folderPath) => {
     return { error: error.message };
   }
 });
+
+ipcMain.handle('select-directory', async (event) => {
+  const result = await dialog.showOpenDialog({
+    properties: ['openDirectory']
+  });
+  if (result.canceled) {
+    return null;
+  } else {
+    return result.filePaths[0];
+  }
+})
 
 // event triggering once electron is ready to create a window
 app.whenReady().then(() => {

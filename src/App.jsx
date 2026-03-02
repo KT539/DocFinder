@@ -33,16 +33,42 @@ export default function App() {
         }
     };
 
+    const handlePdfDirectorySelection = async () => {
+        const result = await window.electronAPI.selectDirectory();
+        if (result === null) {
+            setPdfPath('');
+        } else {
+            setPdfPath(result);
+        }
+    };
+
+    const handleDocxDirectorySelection = async () => {
+        const result = await window.electronAPI.selectDirectory();
+        if (result === null) {
+            setDocxPath('');
+        } else {
+            setDocxPath(result);
+        }
+    };
+
     return (
         <div className="min-h-screen bg-gray-900 text-white p-8">
             <h1 className="text-2xl font-bold">DocFinder</h1>
 
             <h2 className="text-xl font-semibold mt-6">PDFs scanner</h2>
             <div className="flex gap-2">
+                <button 
+                    onClick={handlePdfDirectorySelection}
+                    className="p-3 bg-gray-700 hover:bg-gray-600 rounded font-medium flex items-center justify-center transition-colors"
+                    title="Parcourir les dossiers">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.31c-.195 0-.387-.078-.531-.22l-1.66-1.66a1.5 1.5 0 0 0-1.06-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.31c-.195 0-.387-.078-.531-.22Z" />
+                    </svg>
+                </button>
                 <input
                     type="text"
+                    readOnly
                     value={pdfPath} // path stores up the input provided by the user
-                    onChange={(e) => setPdfPath(e.target.value)} // setPath updates the path value ; with onChange, each keystroke calls setPath with a new input value, updating path et re-rendering the page
                     placeholder="Veuillez insérer votre path..."
                     className="w-full p-3 rounded bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
                 />
@@ -55,10 +81,18 @@ export default function App() {
 
             <h2 className="text-xl font-semibold mt-6">DOCXs scanner</h2>
             <div className="flex gap-2">
+                <button 
+                    onClick={handleDocxDirectorySelection}
+                    className="p-3 bg-gray-700 hover:bg-gray-600 rounded font-medium flex items-center justify-center transition-colors"
+                    title="Parcourir les dossiers">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.31c-.195 0-.387-.078-.531-.22l-1.66-1.66a1.5 1.5 0 0 0-1.06-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.31c-.195 0-.387-.078-.531-.22Z" />
+                    </svg>
+                </button>
                 <input
                     type="text"
-                    value={docxPath} 
-                    onChange={(e) => setDocxPath(e.target.value)}
+                    readOnly
+                    value={docxPath}
                     placeholder="Veuillez insérer votre path..."
                     className="w-full p-3 rounded bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
                 />
