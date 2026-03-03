@@ -4,9 +4,7 @@ import { useState } from 'react';
 
 export default function App() {
     const [pdfPath, setPdfPath] = useState('');
-    const [docxPath, setDocxPath] = useState('');
     const [pdfs, setPdfs] = useState([]);
-    const [docxs, setDocxs] = useState([]);
     const [error, setError] = useState('');
 
     const handlePdfScan = async () => {
@@ -22,16 +20,6 @@ export default function App() {
             setPdfs(result.pdfs || []); // display the PDFs list, or an empty table if no PDF was found
         }
     };
-    const handleDocxScan = async () => {
-        setError('');
-        const result = await window.electronAPI.scanDocxs(docxPath);
-        if (result.error) {
-            setError(result.error);
-            setDocxs([]);
-        } else {
-            setDocxs(result.docxs || []);
-        }
-    };
 
     const handlePdfDirectorySelection = async () => {
         const result = await window.electronAPI.selectDirectory();
@@ -39,15 +27,6 @@ export default function App() {
             setPdfPath('');
         } else {
             setPdfPath(result);
-        }
-    };
-
-    const handleDocxDirectorySelection = async () => {
-        const result = await window.electronAPI.selectDirectory();
-        if (result === null) {
-            setDocxPath('');
-        } else {
-            setDocxPath(result);
         }
     };
 
@@ -79,30 +58,6 @@ export default function App() {
                 </button>
             </div>
 
-            <h2 className="text-xl font-semibold mt-6">DOCXs scanner</h2>
-            <div className="flex gap-2">
-                <button 
-                    onClick={handleDocxDirectorySelection}
-                    className="p-3 bg-gray-700 hover:bg-gray-600 rounded font-medium flex items-center justify-center transition-colors"
-                    title="Parcourir les dossiers">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.31c-.195 0-.387-.078-.531-.22l-1.66-1.66a1.5 1.5 0 0 0-1.06-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.31c-.195 0-.387-.078-.531-.22Z" />
-                    </svg>
-                </button>
-                <input
-                    type="text"
-                    readOnly
-                    value={docxPath}
-                    placeholder="Veuillez insérer votre path..."
-                    className="w-full p-3 rounded bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
-                />
-                <button
-                    onClick={handleDocxScan}
-                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded font-medium">
-                    Lancer le scan
-                </button>
-            </div>
-
             {error && ( // conditionnal rendering : if the condition is true, display the jsx ; string = true, emty string = false
                 <div className="mt-4 p-3 bg-red-900 border border-red-700 rounded">
                     {error}
@@ -117,18 +72,6 @@ export default function App() {
                             // React needs a unique id for each element of the list, to know which ones have changed when a re-render occurs
                             <li key={pdf.path} className="p-3 bg-gray-800 rounded"> 
                                 {pdf.name}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            )}
-            {docxs.length > 0 && (
-                <div className="mt-6">
-                    <h2 className="text-xl font-semibold mb-3">DOCXs trouvés :</h2>
-                    <ul className="space-y-2">
-                        {docxs.map((docx) => (
-                            <li key={docx.path} className="p-3 bg-gray-800 rounded">
-                                {docx.name}
                             </li>
                         ))}
                     </ul>

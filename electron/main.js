@@ -46,16 +46,6 @@ ipcMain.handle('scan-pdfs', async (event, folderPath) => {
   }
 });
 
-ipcMain.handle('scan-docxs', async (event, folderPath) => {
-  try {
-    const response = await fetch(`http://localhost:8000/scan.php?path=${encodeURIComponent(folderPath)}&type=docx`);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    return { error: error.message };
-  }
-});
-
 ipcMain.handle('select-directory', async (event) => {
   const result = await dialog.showOpenDialog({
     properties: ['openDirectory']
