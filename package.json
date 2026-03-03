@@ -1,5 +1,5 @@
 {
-  "name": "docflow",
+  "name": "docfinder",
   "version": "1.0.0",
   "description": "PreTPI project",
   "main": "electron/main.js",
@@ -10,16 +10,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/KT539/DocFlow.git"
+    "url": "git+https://github.com/KT539/DocFinder.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/KT539/DocFlow/issues"
+    "url": "https://github.com/KT539/DocFinder/issues"
   },
-  "homepage": "https://github.com/KT539/DocFlow#readme",
+  "homepage": "https://github.com/KT539/DocFinder#readme",
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.18",
     "@vitejs/plugin-react": "^5.1.3",
