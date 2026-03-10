@@ -6,13 +6,14 @@ export default function Scanner({ navigate }) {
     const [pdfPath, setPdfPath] = useState('');
     const [pdfs, setPdfs] = useState([]);
     const [error, setError] = useState('');
+    const [hasScanned, setHasScanned] = useState(false);
 
     const handlePdfScan = async () => {
         setError(''); // reinitialize the error state before launching a new scan
 
         // call the function exposed by electron/preload.js, and set the result variable to the JSON object returned by PHP
         const result = await window.electronAPI.scanPdfs(pdfPath);
-
+        setHasScanned(true);
         if (result.error) {
             setError(result.error); // display the error message
             setPdfs([]); // empty the PDFs list
@@ -75,7 +76,7 @@ export default function Scanner({ navigate }) {
                 </div>
             )}
 
-            {pdfs.length > 0 && ( // conditionnal rendering : only display the list if pdfs.length > 0
+            {pdfs.length > 0 ? ( // conditionnal rendering : only display the list if pdfs.length > 0
                 <div className="mt-6">
                     <h2 className="text-xl font-semibold mb-3">PDFs trouvés :</h2>
                     <ul className="space-y-2">
@@ -90,6 +91,10 @@ export default function Scanner({ navigate }) {
                             </li>
                         ))}
                     </ul>
+                </div>
+            ) :  hasScanned && (
+                <div className="mt-6">
+                    <h3 className="text-sm mb-3">Aucun fichier PDF trouvé</h3>
                 </div>
             )}
         </div>
