@@ -7,6 +7,7 @@ export default function Scanner({ navigate }) {
     const [pdfs, setPdfs] = useState([]);
     const [error, setError] = useState('');
     const [hasScanned, setHasScanned] = useState(false);
+    const [addedPaths, setAddedPaths] = useState(new Set());
 
     const handlePdfScan = async () => {
         setError(''); // reinitialize the error state before launching a new scan
@@ -33,6 +34,7 @@ export default function Scanner({ navigate }) {
 
     const handleAddToLibrary = async (pdf) => {
         await window.electronAPI.addToLibrary(pdf);
+        setAddedPaths(prev => new Set(prev).add(pdf.path));
     };
 
     return (
@@ -86,7 +88,7 @@ export default function Scanner({ navigate }) {
                                 {pdf.name}
                                 <button onClick={() => handleAddToLibrary(pdf)}
                                 className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded text-sm">
-                                    +
+                                    {addedPaths.has(pdf.path) ? '✓' : '+'}
                                 </button>
                             </li>
                         ))}
