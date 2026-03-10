@@ -30,6 +30,10 @@ export default function Scanner({ navigate }) {
         }
     };
 
+    const handleAddToLibrary = async (pdf) => {
+        await window.electronAPI.addToLibrary(pdf);
+    };
+
     return (
         <div className="min-h-screen bg-gray-900 text-white p-8">
             <div className="flex items-center gap-4 mb-8">
@@ -77,8 +81,12 @@ export default function Scanner({ navigate }) {
                     <ul className="space-y-2">
                         {pdfs.map((pdf) => ( // map method turns the table into a table of React elements
                             // React needs a unique id for each element of the list, to know which ones have changed when a re-render occurs
-                            <li key={pdf.path} className="p-3 bg-gray-800 rounded"> 
+                            <li key={pdf.path} className="p-3 bg-gray-800 rounded flex justify-between items-center"> 
                                 {pdf.name}
+                                <button onClick={() => handleAddToLibrary(pdf)}
+                                className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded text-sm">
+                                    +
+                                </button>
                             </li>
                         ))}
                     </ul>

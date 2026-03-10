@@ -1,6 +1,8 @@
 const { app, BrowserWindow, dialog, ipcMain } = require('electron'); // import the electron app itself (BrowserWindow = the class representing a window in the app)
 const path = require('path'); // native Node module to handle file paths cross-platform
 const { spawn } = require('child_process'); // native Node module to launch external processes from the app, like my PHP server
+const Store = require('electron-store'); // allows for persistent storage in a JSON file (%APPDATA%\docfinder\config.json)
+const store = new Store();
 
 // electron-reload initialization
 require('electron-reload')(__dirname, {
@@ -55,7 +57,26 @@ ipcMain.handle('select-directory', async (event) => {
   } else {
     return result.filePaths[0];
   }
-})
+}),
+
+ipcMain.handle('get-library', () => {
+  return store.get('library', []); // empty array as default value
+});
+
+ipcMain.handle('add-to-library', (event, pdf) => {
+  const library = store.get('library', []);
+  if (!library.find(p => p.path === pdf.path)) {
+    library.push({ ...pdf, addedAt: Date.now() });
+    store.set('library', library);
+  }
+  return store.get('library');
+});
+
+ipcMain.handle('remove-from-library', (event, pdfPath) => {
+  const library = store.get('library', []);
+  store.set('library', library.filter(p => p.path !== pdfPath));
+  return store.get('library');
+});
 
 // event triggering once electron is ready to create a window
 app.whenReady().then(() => {
