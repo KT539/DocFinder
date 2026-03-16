@@ -12,5 +12,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     selectDirectory: () => ipcRenderer.invoke('select-directory'),
     getLibrary: () =>ipcRenderer.invoke('get-library'),
     addToLibrary: (pdf) => ipcRenderer.invoke('add-to-library', pdf),
-    removeFromLibrary: (pdfPath) => ipcRenderer.invoke('remove-from-library', pdfPath)
+    removeFromLibrary: (pdfPath) => ipcRenderer.invoke('remove-from-library', pdfPath),
+    openPdf: (filePath) => ipcRenderer.invoke('open-pdf', filePath),
 });

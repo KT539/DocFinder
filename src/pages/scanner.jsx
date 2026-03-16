@@ -68,8 +68,7 @@ export default function Scanner({ navigate }) {
                     readOnly
                     value={pdfPath} // path stores up the input provided by the user
                     placeholder="Veuillez insérer votre path..."
-                    className="w-full p-3 rounded bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
-                />
+                    className="w-full p-3 rounded bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"/>
                 <button
                     onClick={handlePdfScan}
                     className="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded font-medium">
@@ -77,13 +76,13 @@ export default function Scanner({ navigate }) {
                 </button>
             </div>
 
-            {error && ( // conditionnal rendering : if the condition is true, display the jsx ; string = true, emty string = false
+            {error && ( // conditional rendering : if the condition is true, display the jsx ; string = true, empty string = false
                 <div className="mt-4 p-3 bg-red-900 border border-red-700 rounded">
                     {error}
                 </div>
             )}
 
-            {pdfs.length > 0 ? ( // conditionnal rendering : only display the list if pdfs.length > 0
+            {pdfs.length > 0 ? ( // conditional rendering : only display the list if pdfs.length > 0
                 <div className="mt-6">
                     <h2 className="text-xl font-semibold mb-3">PDFs trouvés :</h2>
                     <input
@@ -99,10 +98,10 @@ export default function Scanner({ navigate }) {
                     <ul className="space-y-2">
                         {filteredPdfs.map((pdf) => ( // map method turns the table into a table of React elements
                             // React needs a unique id for each element of the list, to know which ones have changed when a re-render occurs
-                            <li key={pdf.path} className="p-3 bg-gray-800 rounded flex justify-between items-center"> 
+                            // added a stopPropagation method on AI's suggestion, to stop the + button from opening the files
+                            <li key={pdf.path} onClick={() => window.electronAPI.openPdf(pdf.path)} className="p-3 bg-gray-800 cursor-pointer select-none hover:bg-gray-700 rounded flex justify-between items-center">
                                 {pdf.name}
-                                <button onClick={() => handleAddToLibrary(pdf)}
-                                className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded text-sm">
+                                <button onClick={async (e) => { e.stopPropagation(); await handleAddToLibrary(pdf); }} className="px-3 py-1 bg-gray-600 hover:bg-gray-500 rounded text-sm">
                                     {addedPaths.has(pdf.path) ? '✓' : '+'}
                                 </button>
                             </li>

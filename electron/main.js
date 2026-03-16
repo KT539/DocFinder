@@ -1,4 +1,4 @@
-const { app, BrowserWindow, dialog, ipcMain } = require('electron'); // import the electron app itself (BrowserWindow = the class representing a window in the app)
+const { app, BrowserWindow, dialog, ipcMain, shell } = require('electron'); // import the electron app itself (BrowserWindow = the class representing a window in the app)
 const path = require('path'); // native Node module to handle file paths cross-platform
 const { spawn } = require('child_process'); // native Node module to launch external processes from the app, like my PHP server
 const Store = require('electron-store'); // allows for persistent storage in a JSON file (%APPDATA%\docfinder\config.json)
@@ -77,6 +77,10 @@ ipcMain.handle('remove-from-library', (event, pdfPath) => {
   store.set('library', library.filter(p => p.path !== pdfPath));
   return store.get('library');
 });
+
+ipcMain.handle('open-pdf', (event, filePath) => {
+    shell.openPath(filePath);
+})
 
 // event triggering once electron is ready to create a window
 app.whenReady().then(() => {
