@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 export default function Library({ navigate }) {
     const [library, setLibrary] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
         const loadLibrary = async () => {
@@ -12,6 +13,10 @@ export default function Library({ navigate }) {
         };
         loadLibrary();
     }, []);
+
+    const filteredLibrary = library.filter(pdf =>
+        pdf.name.toLowerCase().includes(search.toLowerCase())
+    )
 
     const handleRemoveFromLibrary = async (pdfPath) => {
         const updated = await window.electronAPI.removeFromLibrary(pdfPath);
@@ -32,6 +37,20 @@ export default function Library({ navigate }) {
                 <h2 className="text-xl font-semibold">Bibliothèque</h2>
             </div>
 
+            {!loading && library.length > 0 && (
+                <>      
+                    <input
+                        type="text"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        placeholder="Filtrer par nom de fichier..."
+                        className="w-full p-3 rounded bg-gray-800 border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 mb-4"
+                    />
+                    <p className="text-gray-500 text-sm mb-3">
+                        {filteredLibrary.length} / {library.length} fichier(s)
+                    </p>
+                </>
+            )}
             {loading ? (
                 <div className="flex items-center justify-center mt-20 text-gray-500">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2 animate-spin">
@@ -51,7 +70,7 @@ export default function Library({ navigate }) {
             ) : (
                 <div className="mt-6">
                     <ul className="space-y-2">
-                        {library.map((pdf) => (
+                        {filteredLibrary.map((pdf) => (
                             <li key={pdf.path} className="p-3 bg-gray-800 rounded flex justify-between items-center gap-4">
                                 <div className="flex items-center gap-3 min-w-0">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-gray-400 shrink-0">

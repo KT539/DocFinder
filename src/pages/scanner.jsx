@@ -8,6 +8,11 @@ export default function Scanner({ navigate }) {
     const [error, setError] = useState('');
     const [hasScanned, setHasScanned] = useState(false);
     const [addedPaths, setAddedPaths] = useState(new Set());
+    const [search, setSearch] = useState('');
+
+    const filteredPdfs = pdfs.filter(pdf =>
+        pdf.name.toLowerCase().includes(search.toLowerCase())
+    )
 
     const handlePdfScan = async () => {
         setError(''); // reinitialize the error state before launching a new scan
@@ -81,8 +86,18 @@ export default function Scanner({ navigate }) {
             {pdfs.length > 0 ? ( // conditionnal rendering : only display the list if pdfs.length > 0
                 <div className="mt-6">
                     <h2 className="text-xl font-semibold mb-3">PDFs trouvés :</h2>
+                    <input
+                        type="text"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        placeholder="Filtrer par nom de fichier..."
+                        className="w-full p-3 rounded bg-gray-800 border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 mb-4"
+                    />
+                    <p className="text-gray-500 text-sm mb-3">
+                        {filteredPdfs.length} / {pdfs.length} fichier(s)
+                    </p>
                     <ul className="space-y-2">
-                        {pdfs.map((pdf) => ( // map method turns the table into a table of React elements
+                        {filteredPdfs.map((pdf) => ( // map method turns the table into a table of React elements
                             // React needs a unique id for each element of the list, to know which ones have changed when a re-render occurs
                             <li key={pdf.path} className="p-3 bg-gray-800 rounded flex justify-between items-center"> 
                                 {pdf.name}
