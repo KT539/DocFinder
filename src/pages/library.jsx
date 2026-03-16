@@ -82,7 +82,7 @@ export default function Library({ navigate }) {
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-3 shrink-0">
-                                    <button onClick={async (e) => { e.stopPropagation(); await handleRemoveFromLibrary(pdf.path); }} className="px-3 py-1 bg-gray-600 hover:bg-gray-500 rounded text-sm">
+                                    <button onClick={async (e) => { e.stopPropagation(); await handleRemoveFromLibrary(pdf.path); }} className="px-3 py-1 bg-gray-600 hover:bg-gray-500 cursor-pointer select-none rounded text-sm">
                                     -
                                     </button>
                                 </div>

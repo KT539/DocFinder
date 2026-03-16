@@ -101,7 +101,7 @@ export default function Scanner({ navigate }) {
                             // added a stopPropagation method on AI's suggestion, to stop the + button from opening the files
                             <li key={pdf.path} onClick={() => window.electronAPI.openPdf(pdf.path)} className="p-3 bg-gray-800 cursor-pointer select-none hover:bg-gray-700 rounded flex justify-between items-center">
                                 {pdf.name}
-                                <button onClick={async (e) => { e.stopPropagation(); await handleAddToLibrary(pdf); }} className="px-3 py-1 bg-gray-600 hover:bg-gray-500 rounded text-sm">
+                                <button onClick={async (e) => { e.stopPropagation(); await handleAddToLibrary(pdf); }} className="px-3 py-1 bg-gray-600 hover:bg-gray-500 cursor-pointer select-none rounded text-sm">
                                     {addedPaths.has(pdf.path) ? '✓' : '+'}
                                 </button>
                             </li>
