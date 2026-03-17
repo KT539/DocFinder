@@ -65,8 +65,8 @@ export default function Scanner({ navigate }) {
                 </button>
                 <input
                     type="text"
-                    readOnly
                     value={pdfPath} // path stores up the input provided by the user
+                    onChange={(e) => setPdfPath(e.target.value)}
                     placeholder="Veuillez insérer votre path..."
                     className="w-full p-3 rounded bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"/>
                 <button

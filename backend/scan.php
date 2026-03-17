@@ -15,6 +15,11 @@ if (!is_dir($path)) { // checks in the file system if the folder provided exists
     exit;
 }
 
+if (!is_readable($path)) {
+    echo json_encode(['error' => 'You do not have permission to read this directory.']);
+    exit;
+}
+
 $files = scandir($path); // use scandir function to return the content of the folder as a table
 $pdfs = [];
 
