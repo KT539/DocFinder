@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json'); // informs the client that the following data will be in JSON
-header('Access-Control-Allow-Origin: *'); // authorize any web page to send requests to this server without triggering a block from the browser's CORS policies
+header('Access-Control-Allow-Origin: http://localhost:5173'); // authorize any web page to send requests to this server without triggering a block from the browser's CORS policies
 
 // $_GET['path'] : access the value of the path parameter provided in the URL
 $path = $_GET['path'] ?? ''; // null coalescing operator : if the path parameter is null, then use an empty string instead

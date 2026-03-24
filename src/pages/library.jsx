@@ -34,9 +34,8 @@ export default function Library({ navigate }) {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                     </svg>
                 </button>
-                <h2 className="text-xl font-semibold">Bibliothèque</h2>
             </div>
-
+            <h2 className="text-xl font-semibold mt-6 mb-6">Bibliothèque</h2>
             {!loading && library.length > 0 && (
                 <>      
                     <input
