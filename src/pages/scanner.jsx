@@ -1,3 +1,12 @@
+/**
+ * @file            pages/scanner.jsx
+ * @project         DocFinder
+ * @author          Kilian Testard
+ * @project_lead    Pascal Hurni
+ * @last_modified   24-03-2026
+ */
+
+
 import { useState } from 'react'; // useState triggers a re-render whenever its setter is called, keeping the UI reactive
 
 export default function Scanner({ navigate }) {

@@ -1,3 +1,12 @@
+/**
+ * @file            main.js
+ * @project         DocFinder
+ * @author          Kilian Testard
+ * @project_lead    Pascal Hurni
+ * @last_modified   24-03-2026
+ */
+
+
 const { app, BrowserWindow, dialog, ipcMain, shell } = require('electron'); // import the needed electron modules
 const path = require('path'); // native Node module to handle file paths cross-platform
 const { spawn } = require('child_process'); // native Node module to launch external processes from the app, like my PHP server

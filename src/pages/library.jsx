@@ -1,3 +1,12 @@
+/**
+ * @file            pages/library.jsx
+ * @project         DocFinder
+ * @author          Kilian Testard
+ * @project_lead    Pascal Hurni
+ * @last_modified   24-03-2026
+ */
+
+
 import { useState, useEffect } from 'react';
 
 export default function Library({ navigate }) {

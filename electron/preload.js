@@ -1,3 +1,12 @@
+/**
+ * @file            preload.js
+ * @project         DocFinder
+ * @author          Kilian Testard
+ * @project_lead    Pascal Hurni
+ * @last_modified   24-03-2026
+ */
+
+
 /* acts as the sole secure bridge between the main process (Node.js)
 and the renderer process (Chromium+React), avoiding direct Node.js access from the renderer */
 

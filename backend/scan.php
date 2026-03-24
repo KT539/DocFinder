@@ -1,4 +1,13 @@
 <?php
+/**
+ * @file            scan.php
+ * @project         DocFinder
+ * @author          Kilian Testard
+ * @project_lead    Pascal Hurni
+ * @last_modified   24-03-2026
+ */
+
+
 header('Content-Type: application/json'); // informs the client that the following data will be in JSON
 header('Access-Control-Allow-Origin: http://localhost:5173'); // allows this port to bypass the browser's CORS policy ; !! help from AI !!
 

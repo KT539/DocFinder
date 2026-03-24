@@ -1,3 +1,12 @@
+/**
+ * @file            main.jsx
+ * @project         DocFinder
+ * @author          Kilian Testard
+ * @project_lead    Pascal Hurni
+ * @last_modified   24-03-2026
+ */
+
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './styles.css';

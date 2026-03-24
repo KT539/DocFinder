@@ -1,3 +1,12 @@
+/**
+ * @file            pages/home.jsx
+ * @project         DocFinder
+ * @author          Kilian Testard
+ * @project_lead    Pascal Hurni
+ * @last_modified   24-03-2026
+ */
+
+
 // displays navigation buttons to Scanner and Library
 export default function Home({ navigate }) {
     return (
