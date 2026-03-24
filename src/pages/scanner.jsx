@@ -1,49 +1,50 @@
-// react hook to trigger a re-render of a component when a set variable is modified
-// so when setPath, setPdfs ou setError is called, React automatically synchronises the UI with the new value
-import { useState } from 'react'; 
+import { useState } from 'react'; // useState triggers a re-render whenever its setter is called, keeping the UI reactive
 
 export default function Scanner({ navigate }) {
-    const [pdfPath, setPdfPath] = useState('');
-    const [pdfs, setPdfs] = useState([]);
-    const [error, setError] = useState('');
-    const [hasScanned, setHasScanned] = useState(false);
-    const [addedPaths, setAddedPaths] = useState(new Set());
-    const [search, setSearch] = useState('');
+    const [pdfPath, setPdfPath] = useState(''); // folder path typed or selected by the user
+    const [pdfs, setPdfs] = useState([]); // list of PDFs returned by the last scan
+    const [error, setError] = useState(''); // error message returned by the backend
+    const [hasScanned, setHasScanned] = useState(false); // true if the user has launched at least one scan
+    const [addedPaths, setAddedPaths] = useState(new Set()); // set of PDF path already added to the library
+    const [search, setSearch] = useState(''); // current value of the search filter
 
+    // filters pdfs in real time based on the search input
     const filteredPdfs = pdfs.filter(pdf =>
         pdf.name.toLowerCase().includes(search.toLowerCase())
     )
 
+    // sends the folder path to the IPC handler, which calls the PHP backend and returns the list of PDFs
     const handlePdfScan = async () => {
         setError(''); // reinitialize the error state before launching a new scan
-
-        // call the function exposed by electron/preload.js, and set the result variable to the JSON object returned by PHP
         const result = await window.electronAPI.scanPdfs(pdfPath);
         setHasScanned(true);
         if (result.error) {
             setError(result.error); // display the error message
-            setPdfs([]); // empty the PDFs list
+            setPdfs([]); // clears the PDFs list
         } else {
             setPdfs(result.pdfs || []); // display the PDFs list, or an empty table if no PDF was found
         }
     };
 
+    // opens windows file explorer and updates pdfPath with the selected directory
     const handlePdfDirectorySelection = async () => {
         const result = await window.electronAPI.selectDirectory();
         if (result === null) {
-            setPdfPath('');
+            setPdfPath(''); // reset the path if user closes the dialog without selecting a folder
         } else {
             setPdfPath(result);
         }
     };
 
+    // calls the IPC handler to save the PDF to the store, then marks it as added locally
     const handleAddToLibrary = async (pdf) => {
         await window.electronAPI.addToLibrary(pdf);
-        setAddedPaths(prev => new Set(prev).add(pdf.path));
+        setAddedPaths(prev => new Set(prev).add(pdf.path)); // create a new Set to trigger a re-render
     };
 
     return (
         <div className="min-h-screen bg-gray-900 text-white p-8">
+            {/* back button */}
             <div className="flex items-center gap-4 mb-8">
                 <button
                     onClick={() => navigate('home')}
@@ -54,6 +55,7 @@ export default function Scanner({ navigate }) {
                 </button>
             </div>
             <h2 className="text-xl font-semibold mt-6">PDFs scanner</h2>
+            {/* path input row : folder picker button, text input, and scan button */}
             <div className="flex gap-2">
                 <button 
                     onClick={handlePdfDirectorySelection}
@@ -65,7 +67,7 @@ export default function Scanner({ navigate }) {
                 </button>
                 <input
                     type="text"
-                    value={pdfPath} // path stores up the input provided by the user
+                    value={pdfPath}
                     onChange={(e) => setPdfPath(e.target.value)}
                     placeholder="Veuillez insérer votre path..."
                     className="w-full p-3 rounded bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"/>
@@ -92,13 +94,14 @@ export default function Scanner({ navigate }) {
                         placeholder="Filtrer par nom de fichier..."
                         className="w-full p-3 rounded bg-gray-800 border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 mb-4"
                     />
+                    {/* display filtered count vs total */}
                     <p className="text-gray-500 text-sm mb-3">
                         {filteredPdfs.length} / {pdfs.length} fichier(s)
                     </p>
                     <ul className="space-y-2">
-                        {filteredPdfs.map((pdf) => ( // map method turns the table into a table of React elements
-                            // React needs a unique id for each element of the list, to know which ones have changed when a re-render occurs
-                            // added a stopPropagation method on AI's suggestion, to stop the + button from opening the files
+                        {filteredPdfs.map((pdf) => (
+                            // key={pdf.path} lets React identify which items changed on re-render
+                            // stopPropagation allows to differentiate between clicks on the button and cliks on the files ; !! help from AI !!
                             <li key={pdf.path} onClick={() => window.electronAPI.openPdf(pdf.path)} className="p-3 bg-gray-800 cursor-pointer select-none hover:bg-gray-700 rounded flex justify-between items-center">
                                 {pdf.name}
                                 <button onClick={async (e) => { e.stopPropagation(); await handleAddToLibrary(pdf); }} className="px-3 py-1 bg-gray-600 hover:bg-gray-500 cursor-pointer select-none rounded text-sm">
@@ -109,6 +112,7 @@ export default function Scanner({ navigate }) {
                     </ul>
                 </div>
             ) :  hasScanned && (
+                // only shown if a scan was run but returned no PDFs
                 <div className="mt-6">
                     <h3 className="text-sm mb-3">Aucun fichier PDF trouvé</h3>
                 </div>

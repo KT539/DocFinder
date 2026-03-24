@@ -1,13 +1,12 @@
-/*meant to be the secured bridge, and only point of contact, between the
-the main process (Nodes) and the renderer process (Chromium+React)*/
+/* acts as the sole secure bridge between the main process (Node.js)
+and the renderer process (Chromium+React), avoiding direct Node.js access from the renderer */
 
-// import both theipcRenderer object, and an API that allows to safely expose functions to the renderer
+// import the ipcRenderer object, and the contextBridge module which allows to safely expose functions to the renderer
 const { contextBridge, ipcRenderer } = require('electron');
 
-// exposeInMainWorld creates an object in window
+// creates the window.electronAPI object, making it accessible from the renderer
 contextBridge.exposeInMainWorld('electronAPI', {
-    // list of functions in electronAPI object
-    // send the scan functions with a path as parameter, and wait for ipcMain's response
+    // each function sends a message to the main process via ipcRenderer.invoke and returns a promise
     scanPdfs: (folderPath) => ipcRenderer.invoke('scan-pdfs', folderPath),
     selectDirectory: () => ipcRenderer.invoke('select-directory'),
     getLibrary: () =>ipcRenderer.invoke('get-library'),

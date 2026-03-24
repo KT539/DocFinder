@@ -1,3 +1,4 @@
+// displays navigation buttons to Scanner and Library
 export default function Home({ navigate }) {
     return (
         <div className="min-h-screen bg-gray-900 text-white flex flex-col p-8">

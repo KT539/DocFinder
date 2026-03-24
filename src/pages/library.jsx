@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 
 export default function Library({ navigate }) {
-    const [library, setLibrary] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [search, setSearch] = useState('');
+    const [library, setLibrary] = useState([]); // full list of saved PDFs from the store
+    const [loading, setLoading] = useState(true); // true while the library is loading
+    const [search, setSearch] = useState(''); // current value of the search filter
 
+    // fetch the library from the persistent store
     useEffect(() => {
         const loadLibrary = async () => {
             const data = await window.electronAPI.getLibrary();
@@ -14,10 +15,12 @@ export default function Library({ navigate }) {
         loadLibrary().catch(console.error);
     }, []);
 
+    // filters library in real time based on the search input
     const filteredLibrary = library.filter(pdf =>
         pdf.name.toLowerCase().includes(search.toLowerCase())
     )
 
+    // calls the IPC handler to remove the PDF from the store, then updates the local state
     const handleRemoveFromLibrary = async (pdfPath) => {
         const updated = await window.electronAPI.removeFromLibrary(pdfPath);
         setLibrary(updated);
@@ -26,6 +29,7 @@ export default function Library({ navigate }) {
 
     return (
         <div className="min-h-screen bg-gray-900 text-white p-8">
+            {/* back button */}
             <div className="flex items-center gap-4 mb-8">
                 <button
                     onClick={() => navigate('home')}
@@ -36,6 +40,8 @@ export default function Library({ navigate }) {
                 </button>
             </div>
             <h2 className="text-xl font-semibold mt-6 mb-6">Bibliothèque</h2>
+            
+            {/* only show the search bar once loading is done and the library has at least one entry */}
             {!loading && library.length > 0 && (
                 <>      
                     <input
@@ -45,6 +51,7 @@ export default function Library({ navigate }) {
                         placeholder="Filtrer par nom de fichier..."
                         className="w-full p-3 rounded bg-gray-800 border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 mb-4"
                     />
+                    {/* display filtered count vs total */}
                     <p className="text-gray-500 text-sm mb-3">
                         {filteredLibrary.length} / {library.length} fichier(s)
                     </p>
@@ -59,6 +66,7 @@ export default function Library({ navigate }) {
                 </div>
 
             ) : library.length === 0 ? (
+                // empty state shown when the library has no entries
                 <div className="flex flex-col items-center justify-center mt-16 text-center border-2 border-dashed border-gray-700 rounded-xl py-16 px-8">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-16 h-16 text-gray-600 mb-4">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
@@ -67,9 +75,11 @@ export default function Library({ navigate }) {
                     <p className="text-gray-600 text-sm">Ajoutez des PDFs depuis le scanner.</p>
                 </div>
             ) : (
+                // render the filtered list of saved PDFs
                 <div className="mt-6">
                     <ul className="space-y-2">
                         {filteredLibrary.map((pdf) => (
+                            // clicking the row opens the PDF with the OS default viewer
                             <li key={pdf.path} onClick={() => window.electronAPI.openPdf(pdf.path)} className="p-3 bg-gray-800 cursor-pointer select-none hover:bg-gray-700 rounded flex justify-between items-center gap-4">
                                 <div className="flex items-center gap-3 min-w-0">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-gray-400 shrink-0">
@@ -81,6 +91,7 @@ export default function Library({ navigate }) {
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-3 shrink-0">
+                                    {/* stopPropagation allows the diffirentiate the clicks on the button and the clicks on the files ; !! help from AI !! */}
                                     <button onClick={async (e) => { e.stopPropagation(); await handleRemoveFromLibrary(pdf.path); }} className="px-3 py-1 bg-gray-600 hover:bg-gray-500 cursor-pointer select-none rounded text-sm">
                                     -
                                     </button>
