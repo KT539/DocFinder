@@ -40,13 +40,15 @@ Le projet repose sur une architecture hybride :
 #### Prérequis
 
 - Node.js (v22.18.0)
-- PHP (v8.5.2)  
-    Assurez-vous qu'il est installé et ajouté à la variable d'environnement `PATH`
+- PHP (v8.5.2)
+
+  Assurez-vous que Node.js et PHP soient installés et ajoutés aux variables d'environnement `PATH`
 
 #### Étapes
 
 #### 1. Cloner le dépôt
 git clone https://github.com/KT539/DocFinder.git
+
 cd DocFinder
 
 #### 2. Installer les dépendances
@@ -61,13 +63,21 @@ Cette commande lance simultanément le serveur de développement Vite et l'appli
 
 ## Structure du projet
 ├── backend/        # Scripts PHP (logique de scan)
+
 ├── electron/       # Main process, preload et config Electron
+
 ├── src/            # Code source React
+
 │   ├── pages/      # Home, Scanner, Library
+
 │   ├── App.jsx     # Navigation
+
 │   ├── main.jsx    # Point d'entrée React
+
 │   └── styles.css  # import Tailwind
+
 ├── index.html      # Point d'entrée HTML
+
 └── package.json    # Dépendances et scripts de lancement
 
 ---
@@ -87,4 +97,5 @@ Ce serveur agit comme une API locale traitant les requêtes de scan de dossiers 
 
 ## Auteur
 Kilian Testard — Développeur principal
+
 Pascal Hurni — Responsable de projet
