@@ -62,7 +62,7 @@ Cette commande lance simultanément le serveur de développement Vite et l'appli
 ---
 
 ## Structure du projet
-├── backend/        # Scripts PHP (logique de scan)
+`├── backend/        # Scripts PHP (logique de scan)
 
 ├── electron/       # Main process, preload et config Electron
 
@@ -78,7 +78,7 @@ Cette commande lance simultanément le serveur de développement Vite et l'appli
 
 ├── index.html      # Point d'entrée HTML
 
-└── package.json    # Dépendances et scripts de lancement
+└── package.json    # Dépendances et scripts de lancement`
 
 ---
 
@@ -96,6 +96,6 @@ Ce serveur agit comme une API locale traitant les requêtes de scan de dossiers 
 ---
 
 ## Auteur
-Kilian Testard — Développeur principal
+Kilian Testard — Développeur
 
-Pascal Hurni — Responsable de projet
+Pascal Hurni — Chef de projet
