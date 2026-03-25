@@ -1,4 +1,4 @@
-# 📄 DocFinder
+# DocFinder
 
 **DocFinder** est une application de bureau simple conçue pour scanner, organiser et gérer vos documents PDF localement.  
 
@@ -62,23 +62,16 @@ Cette commande lance simultanément le serveur de développement Vite et l'appli
 ---
 
 ## Structure du projet
-`├── backend/        # Scripts PHP (logique de scan)
-
+```plaintext
+├── backend/        # Scripts PHP (logique de scan)
 ├── electron/       # Main process, preload et config Electron
-
 ├── src/            # Code source React
-
 │   ├── pages/      # Home, Scanner, Library
-
 │   ├── App.jsx     # Navigation
-
 │   ├── main.jsx    # Point d'entrée React
-
 │   └── styles.css  # import Tailwind
-
 ├── index.html      # Point d'entrée HTML
-
-└── package.json    # Dépendances et scripts de lancement`
+└── package.json    # Dépendances et scripts de lancement
 
 ---
 
