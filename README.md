@@ -1,8 +1,8 @@
 # DocFinder
 
-**DocFinder** est une application de bureau simple conçue pour scanner, organiser et gérer vos documents PDF localement.  
+DocFinder est une application de bureau simple conçue pour scanner, organiser et gérer vos documents PDF localement.  
 
-Développé dans le cadre de mon projet de **PréTPI**, cet outil combine un backend PHP et une interface React, le tout encapsulé dans un environnement Electron.
+Développé dans le cadre de mon projet de PréTPI, cet outil combine un backend PHP et une interface React, le tout encapsulé dans un environnement Electron.
 
 ---
 
@@ -47,15 +47,21 @@ Le projet repose sur une architecture hybride :
 #### Étapes
 
 #### 1. Cloner le dépôt
+```plaintext
 git clone https://github.com/KT539/DocFinder.git
 
 cd DocFinder
+```
 
 #### 2. Installer les dépendances
+```plaintext
 npm install
+```
 
 #### 3. Lancer l'application
+```plaintext
 npm start
+```
 
 Cette commande lance simultanément le serveur de développement Vite et l'application Electron.
 
@@ -72,6 +78,7 @@ Cette commande lance simultanément le serveur de développement Vite et l'appli
 │   └── styles.css  # import Tailwind
 ├── index.html      # Point d'entrée HTML
 └── package.json    # Dépendances et scripts de lancement
+```
 
 ---
 
