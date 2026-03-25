@@ -8,17 +8,17 @@ Développé dans le cadre de mon projet de **PréTPI**, cet outil combine un bac
 
 ## Fonctionnalités
 
-### Scanner de répertoires
+#### Scanner de répertoires
 Sélectionnez n'importe quel dossier sur votre ordinateur pour identifier instantanément tous les fichiers PDF qu'il contient.
 
-### Bibliothèque persistante
+#### Bibliothèque persistante
 Ajoutez vos documents importants à une bibliothèque dédiée.  
 Vos choix sont sauvegardés localement et conservés même après la fermeture de l'application.
 
-### Recherche en temps réel
+#### Recherche en temps réel
 Filtrez vos fichiers par nom grâce à une barre de recherche, que ce soit dans les résultats du scan ou dans votre bibliothèque.
 
-### Consultation de documents
+#### Consultation de documents
 Ouvrez vos fichiers PDF directement dans le lecteur par défaut de votre système d'exploitation en un clic.
 
 ---
@@ -37,27 +37,22 @@ Le projet repose sur une architecture hybride :
 
 ## Installation
 
-### Prérequis
+#### Prérequis
 
 - Node.js (v22.18.0)
 - PHP (v8.5.2)  
     Assurez-vous qu'il est installé et ajouté à la variable d'environnement `PATH`
 
----
-
-### Étapes
+#### Étapes
 
 #### 1. Cloner le dépôt
-```bash
 git clone https://github.com/KT539/DocFinder.git
 cd DocFinder
 
 #### 2. Installer les dépendances
-```bash
 npm install
 
 #### 3. Lancer l'application
-```bash
 npm start
 
 Cette commande lance simultanément le serveur de développement Vite et l'application Electron.
@@ -70,20 +65,20 @@ Cette commande lance simultanément le serveur de développement Vite et l'appli
 ├── src/            # Code source React
 │   ├── pages/      # Home, Scanner, Library
 │   ├── App.jsx     # Navigation
-│   ├── main.jsx    # Entry point React
-│   └── styles.css  # Tailwind
-├── index.html      # Entry point HTML
-└── package.json    # Dépendances et scripts
+│   ├── main.jsx    # Point d'entrée React
+│   └── styles.css  # import Tailwind
+├── index.html      # Point d'entrée HTML
+└── package.json    # Dépendances et scripts de lancement
 
 ---
 
 ## Détails du développement
-### Sécurité (Bridge IPC)
+#### Sécurité (Bridge IPC)
 
 L'application utilise un script preload.js pour exposer de manière sécurisée les fonctionnalités système au frontend React via contextBridge.
 Cela évite d'exposer directement nodeIntegration dans le navigateur.
 
-### Serveur PHP intégré
+#### Serveur PHP intégré
 
 Au lancement, Electron instancie un serveur PHP local sur le port 8000 via un child_process.
 Ce serveur agit comme une API locale traitant les requêtes de scan de dossiers envoyées par le frontend.
